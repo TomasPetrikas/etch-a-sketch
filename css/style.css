@@ -9,6 +9,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: lightblue;
 }
 
 /* div {
@@ -24,15 +25,17 @@ body {
 }
 
 div .square {
-  border: 2px green solid;
+  border: 1px grey dotted;
 }
 
 #container {
   display: flex;
   justify-content: center;
-  width: 640px;
-  height: 640px;
-  border: 2px red solid;
+  width: 800px;
+  height: 800px;
+  border: 16px red solid;
+  border-radius: 32px;
+  box-shadow: 5px 10px;
 }
 
 #container .column,
@@ -43,4 +46,18 @@ div .square {
 #container .column {
   display: flex;
   flex-direction: column;
+}
+
+#container .square {
+  background: white;
+}
+
+@media screen and (max-width: 900px) {
+  #container {
+    width: 80vw;
+    height: 80vw;
+    border: 4px red solid;
+    border-radius: 4px;
+    box-shadow: 2px 4px;
+  }
 }

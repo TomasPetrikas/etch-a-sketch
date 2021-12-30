@@ -42,7 +42,7 @@ function changeBackground(e) {
 
     for (let i = 0; i < colorArr.length; i++) {
       colorArr[i] = +colorArr[i];
-      colorArr[i] -= 25; // 10% darker
+      colorArr[i] -= 25; // ~10% darker
       if (colorArr[i] < 0) colorArr[i] = 0;
     }
 
