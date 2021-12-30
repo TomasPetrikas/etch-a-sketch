@@ -6,12 +6,22 @@
 
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 /* div {
   border: 2px red solid;
 } */
+
+#clear {
+  padding: 16px 0;
+}
+
+#clear-btn {
+  padding: 8px;
+}
 
 div .square {
   border: 2px green solid;
@@ -20,18 +30,20 @@ div .square {
 #container {
   display: flex;
   justify-content: center;
-  max-width: fit-content;
+  width: 640px;
+  height: 640px;
   border: 2px red solid;
 }
 
 #container .column,
 #container .square {
-  width: 50px;
-  height: 50px;
+  min-width: 5px;
+  min-height: 5px;
+  flex: 1 0 auto;
 }
 
 #container .column {
   display: flex;
   flex-direction: column;
-  height: 800px; /* This needs to be 16x height of .square */
+  min-height: 80px; /* This needs to be 16x height of .square */
 }
