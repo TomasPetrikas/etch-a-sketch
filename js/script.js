@@ -126,18 +126,35 @@ function changeMode(e) {
   main();
 }
 
+// Toggles gridlines between squares on and off
+function toggleGridlines(e) {
+  const squares = [...document.querySelectorAll("#container .square")];
+  squares.forEach(function(square) {
+    if (square.style.borderColor == "" || square.style.borderColor == "grey") {
+      square.style.borderColor = "white";
+      square.style.borderWidth = "0px";
+    }
+    else {
+      square.style.borderColor = "grey"; 
+      square.style.borderWidth = "1px";
+    }
+  });
+}
+
 function main() {
   const blackBtn = document.querySelector("#black-btn");
   const greyscaleBtn = document.querySelector("#greyscale-btn");
   const rainbowBtn = document.querySelector("#rainbow-btn");
   const eraserBtn = document.querySelector("#eraser-btn");
   const clearBtn = document.querySelector("#clear-btn");
+  const gridlineBtn = document.querySelector("#gridline-btn");
 
   blackBtn.addEventListener("click", changeMode);
   greyscaleBtn.addEventListener("click", changeMode);
   rainbowBtn.addEventListener("click", changeMode);
   eraserBtn.addEventListener("click", changeMode);
   clearBtn.addEventListener("click", changeGrid);
+  gridlineBtn.addEventListener("click", toggleGridlines);
   
   const squares = [...document.querySelectorAll(".square")];
   squares.forEach(function(square) {
