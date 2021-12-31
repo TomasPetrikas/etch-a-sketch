@@ -91,12 +91,16 @@ function changeBackground(e) {
 // Resets grid and gives option to change grid size
 function changeGrid(e) {
   const newGridSize = prompt(`Please enter new grid size (max: ${MAX_GRID_SIZE})`, currentGridSize);
-  console.log(newGridSize);
   
   if (newGridSize >= 1 && newGridSize <= MAX_GRID_SIZE) {
     currentGridSize = newGridSize;
     clearGrid();
     generateGrid(currentGridSize);
+    
+    // On clearing the grid, the gridlines come back automatically, so we need
+    // to do this
+    const gridlineBtn = document.querySelector("#gridline-btn");
+    gridlineBtn.classList.add("active-btn");
   }
 
   main();
