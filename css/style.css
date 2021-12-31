@@ -20,19 +20,15 @@ body {
   padding: 16px 0;
 }
 
-#clear-btn {
+#options button {
   padding: 8px;
-}
-
-div .square {
-  border: 1px grey dotted;
 }
 
 #container {
   display: flex;
   justify-content: center;
-  width: 800px;
-  height: 800px;
+  width: min(800px, 80vh, 80vw);
+  height: min(800px, 80vh, 80vw);
   border: 16px red solid;
   border-radius: 32px;
   box-shadow: 5px 10px;
@@ -50,12 +46,11 @@ div .square {
 
 #container .square {
   background: white;
+  border: 1px grey dotted;
 }
 
 @media screen and (max-width: 900px) {
   #container {
-    width: min(80vw, 80vh);
-    height: min(80vw, 80vh);
     border: 4px red solid;
     border-radius: 4px;
     box-shadow: 2px 4px;

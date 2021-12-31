@@ -1,5 +1,8 @@
 const DEFAULT_GRID_SIZE = 16;
+const MAX_GRID_SIZE = 64;
+const DEFAULT_MODE = "black";
 let currentGridSize = DEFAULT_GRID_SIZE;
+let currentMode = DEFAULT_MODE;
 
 // Generates a square grid of a given size
 function generateGrid(size) {
@@ -25,56 +28,122 @@ function clearGrid() {
 }
 
 // Changes the background color of a cell
-function changeBackground(e) {  
-  // Check if background is not already colored
-  if (e.target.style.backgroundColor == "") {
-    const red = Math.random() * 255;
-    const green = Math.random() * 255;
-    const blue = Math.random() * 255;
-    e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-  }
-  // If it is, darken it
-  else {
-    // "rgb(xxx, yyy, zzz)"  =>  [xxx, yyy, zzz]
-    let colorStr = e.target.style.backgroundColor;
-    colorStr = colorStr.slice(4, colorStr.length - 1);
-    let colorArr = colorStr.split(", ");
+function changeBackground(e) {
+  switch (currentMode) {
+    case "black":
+      if (e.target.style.backgroundColor == "") {
+        e.target.style.backgroundColor = `rgb(0, 0, 0)`;
+      }
+      break;
+    case "greyscale":
+      // Check if background is not already colored
+      if (e.target.style.backgroundColor == "") {
+        e.target.style.backgroundColor = `rgb(224, 224, 224)`;
+      }
+      // If it is, darken it
+      else {
+        // "rgb(xxx, yyy, zzz)"  =>  [xxx, yyy, zzz]
+        let colorStr = e.target.style.backgroundColor;
+        colorStr = colorStr.slice(4, colorStr.length - 1);
+        let colorArr = colorStr.split(", ");
 
-    for (let i = 0; i < colorArr.length; i++) {
-      colorArr[i] = +colorArr[i];
-      colorArr[i] -= 25; // ~10% darker
-      if (colorArr[i] < 0) colorArr[i] = 0;
-    }
+        for (let i = 0; i < colorArr.length; i++) {
+          colorArr[i] = +colorArr[i];
+          colorArr[i] -= 32; // 12.5% darker
+          if (colorArr[i] < 0) colorArr[i] = 0;
+        }
 
-    e.target.style.backgroundColor = `rgb(${colorArr[0]}, ${colorArr[1]}, ${colorArr[2]})`;
+        e.target.style.backgroundColor = `rgb(${colorArr[0]}, ${colorArr[1]}, ${colorArr[2]})`;
+      }
+      break;
+    case "rainbow":
+      // Check if background is not already colored
+      if (e.target.style.backgroundColor == "") {
+        const red = Math.random() * 255;
+        const green = Math.random() * 255;
+        const blue = Math.random() * 255;
+        e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+      }
+      // If it is, darken it
+      else {
+        // "rgb(xxx, yyy, zzz)"  =>  [xxx, yyy, zzz]
+        let colorStr = e.target.style.backgroundColor;
+        colorStr = colorStr.slice(4, colorStr.length - 1);
+        let colorArr = colorStr.split(", ");
+
+        for (let i = 0; i < colorArr.length; i++) {
+          colorArr[i] = +colorArr[i];
+          colorArr[i] -= 32; // 12.5% darker
+          if (colorArr[i] < 0) colorArr[i] = 0;
+        }
+
+        e.target.style.backgroundColor = `rgb(${colorArr[0]}, ${colorArr[1]}, ${colorArr[2]})`;
+      }
+      break;
+    case "eraser":
+      e.target.style.backgroundColor = ``;
+      break;
+    default:
+      console.log("Something wrong in changeBackground");
   }
 }
 
 // Resets grid and gives option to change grid size
+// TODO: make cancel not reset grid to default
 function changeGrid(e) {
-  const newGridSize = prompt("Please enter new grid size (max: 100)", currentGridSize);
+  const newGridSize = prompt(`Please enter new grid size (max: ${MAX_GRID_SIZE})`, currentGridSize);
+  console.log(newGridSize);
   
-  if (newGridSize >= 1 && newGridSize <= 100) {
+  if (newGridSize >= 1 && newGridSize <= MAX_GRID_SIZE) {
     currentGridSize = newGridSize;
-  }
-  else {
-    currentGridSize = DEFAULT_GRID_SIZE;
+    clearGrid();
+    generateGrid(currentGridSize);
   }
 
-  clearGrid();
+  main();
+}
+
+// Changes the drawing mode
+function changeMode(e) {
+  switch (e.target.id) {
+    case "black-btn":
+      currentMode = "black";
+      break;
+    case "greyscale-btn":
+      currentMode = "greyscale";
+      break;
+    case "rainbow-btn":
+      currentMode = "rainbow";
+      break;
+    case "eraser-btn":
+      currentMode = "eraser";
+      break;
+    default:
+      // Failsafe
+      currentMode = DEFAULT_MODE;
+  }
+
   main();
 }
 
 function main() {
-  generateGrid(currentGridSize);
-
+  const blackBtn = document.querySelector("#black-btn");
+  const greyscaleBtn = document.querySelector("#greyscale-btn");
+  const rainbowBtn = document.querySelector("#rainbow-btn");
+  const eraserBtn = document.querySelector("#eraser-btn");
   const clearBtn = document.querySelector("#clear-btn");
+
+  blackBtn.addEventListener("click", changeMode);
+  greyscaleBtn.addEventListener("click", changeMode);
+  rainbowBtn.addEventListener("click", changeMode);
+  eraserBtn.addEventListener("click", changeMode);
   clearBtn.addEventListener("click", changeGrid);
   
   const squares = [...document.querySelectorAll(".square")];
   squares.forEach(function(square) {
-    square.addEventListener("mouseover", changeBackground)
+    square.addEventListener("mouseover", changeBackground);
   });
 }
 
+generateGrid(currentGridSize);
 main();
