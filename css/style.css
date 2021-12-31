@@ -26,6 +26,23 @@ body {
 
 #options button {
   padding: 8px;
+  background: indianred;
+  border: 2px black solid;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+}
+
+#options button:hover {
+  background: rgb(173, 60, 60);
+}
+
+#options button:active {
+  background: rgb(151, 28, 28);
+}
+
+#options .active-btn {
+  background: rgb(151, 28, 28);
 }
 
 #container {

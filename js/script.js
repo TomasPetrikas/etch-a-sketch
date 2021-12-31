@@ -102,20 +102,29 @@ function changeGrid(e) {
   main();
 }
 
-// Changes the drawing mode
+// Changes the drawing mode and visually updates buttons
 function changeMode(e) {
+  const drawBtns = [...document.querySelectorAll(".draw-btn")];
+  drawBtns.forEach(function(button) {
+    button.classList.remove("active-btn");
+  });
+
   switch (e.target.id) {
     case "black-btn":
       currentMode = "black";
+      e.target.classList.add("active-btn");
       break;
     case "greyscale-btn":
       currentMode = "greyscale";
+      e.target.classList.add("active-btn");
       break;
     case "rainbow-btn":
       currentMode = "rainbow";
+      e.target.classList.add("active-btn");
       break;
     case "eraser-btn":
       currentMode = "eraser";
+      e.target.classList.add("active-btn");
       break;
     default:
       // Failsafe
@@ -136,6 +145,15 @@ function toggleGridlines(e) {
       square.style.borderWidth = "1px";
     }
   });
+
+  // Update button state
+  const gridlineBtn = document.querySelector("#gridline-btn");
+  if (squares[0].style.borderColor == "grey") {
+    gridlineBtn.classList.add("active-btn");
+  }
+  else {
+    gridlineBtn.classList.remove("active-btn");
+  }
 }
 
 function main() {
