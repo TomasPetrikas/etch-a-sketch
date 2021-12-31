@@ -89,7 +89,6 @@ function changeBackground(e) {
 }
 
 // Resets grid and gives option to change grid size
-// TODO: make cancel not reset grid to default
 function changeGrid(e) {
   const newGridSize = prompt(`Please enter new grid size (max: ${MAX_GRID_SIZE})`, currentGridSize);
   console.log(newGridSize);
@@ -122,8 +121,6 @@ function changeMode(e) {
       // Failsafe
       currentMode = DEFAULT_MODE;
   }
-
-  main();
 }
 
 // Toggles gridlines between squares on and off
