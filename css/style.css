@@ -48,8 +48,8 @@ body {
 #container {
   display: flex;
   justify-content: center;
-  width: min(800px, 80vh, 80vw);
-  height: min(800px, 80vh, 80vw);
+  width: min(80vh, 80vw);
+  height: min(80vh, 80vw);
   border: 16px red solid;
   border-radius: 32px;
   box-shadow: 5px 10px;

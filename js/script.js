@@ -1,8 +1,6 @@
 const DEFAULT_GRID_SIZE = 16;
 const MAX_GRID_SIZE = 64;
-const DEFAULT_MODE = "black";
 let currentGridSize = DEFAULT_GRID_SIZE;
-let currentMode = DEFAULT_MODE;
 
 // Generates a square grid of a given size
 function generateGrid(size) {
@@ -21,21 +19,31 @@ function generateGrid(size) {
   }
 }
 
-// Removes the grid from the page
+// Clears the grid and regenerates it
 function clearGrid() {
   const grid = document.querySelector("#container");
   grid.innerHTML = "";
+  generateGrid(currentGridSize);
+
+  // On clearing the grid, the gridlines come back automatically, so we need
+  // to do this
+  const gridlineBtn = document.querySelector("#gridline-btn");
+  gridlineBtn.classList.add("active-btn");
+
+  main();
 }
 
 // Changes the background color of a cell
 function changeBackground(e) {
-  switch (currentMode) {
-    case "black":
+  const activeBtn = document.querySelector(".draw-btn.active-btn");
+
+  switch (activeBtn.id) {
+    case "black-btn":
       if (e.target.style.backgroundColor == "") {
         e.target.style.backgroundColor = `rgb(0, 0, 0)`;
       }
       break;
-    case "greyscale":
+    case "greyscale-btn":
       // Check if background is not already colored
       if (e.target.style.backgroundColor == "") {
         e.target.style.backgroundColor = `rgb(224, 224, 224)`;
@@ -56,7 +64,7 @@ function changeBackground(e) {
         e.target.style.backgroundColor = `rgb(${colorArr[0]}, ${colorArr[1]}, ${colorArr[2]})`;
       }
       break;
-    case "rainbow":
+    case "rainbow-btn":
       // Check if background is not already colored
       if (e.target.style.backgroundColor == "") {
         const red = Math.random() * 255;
@@ -80,7 +88,7 @@ function changeBackground(e) {
         e.target.style.backgroundColor = `rgb(${colorArr[0]}, ${colorArr[1]}, ${colorArr[2]})`;
       }
       break;
-    case "eraser":
+    case "eraser-btn":
       e.target.style.backgroundColor = ``;
       break;
     default:
@@ -88,22 +96,16 @@ function changeBackground(e) {
   }
 }
 
-// Resets grid and gives option to change grid size
+// Changes grid size depending on the value of the slider
 function changeGrid(e) {
-  const newGridSize = prompt(`Please enter new grid size (max: ${MAX_GRID_SIZE})`, currentGridSize);
-  
-  if (newGridSize >= 1 && newGridSize <= MAX_GRID_SIZE) {
-    currentGridSize = newGridSize;
+  if (e.target.value >= 1 && e.target.value <= MAX_GRID_SIZE) {
+    currentGridSize = e.target.value;
     clearGrid();
-    generateGrid(currentGridSize);
-    
-    // On clearing the grid, the gridlines come back automatically, so we need
-    // to do this
-    const gridlineBtn = document.querySelector("#gridline-btn");
-    gridlineBtn.classList.add("active-btn");
   }
 
-  main();
+  // Update text below slider
+  const sizeValue = [...document.querySelectorAll(".size-value")];
+  sizeValue.forEach(val => val.textContent = e.target.value);
 }
 
 // Changes the drawing mode and visually updates buttons
@@ -113,27 +115,7 @@ function changeMode(e) {
     button.classList.remove("active-btn");
   });
 
-  switch (e.target.id) {
-    case "black-btn":
-      currentMode = "black";
-      e.target.classList.add("active-btn");
-      break;
-    case "greyscale-btn":
-      currentMode = "greyscale";
-      e.target.classList.add("active-btn");
-      break;
-    case "rainbow-btn":
-      currentMode = "rainbow";
-      e.target.classList.add("active-btn");
-      break;
-    case "eraser-btn":
-      currentMode = "eraser";
-      e.target.classList.add("active-btn");
-      break;
-    default:
-      // Failsafe
-      currentMode = DEFAULT_MODE;
-  }
+  e.target.classList.add("active-btn");
 }
 
 // Toggles gridlines between squares on and off
@@ -151,12 +133,11 @@ function toggleGridlines(e) {
   });
 
   // Update button state
-  const gridlineBtn = document.querySelector("#gridline-btn");
   if (squares[0].style.borderColor == "grey") {
-    gridlineBtn.classList.add("active-btn");
+    e.target.classList.add("active-btn");
   }
   else {
-    gridlineBtn.classList.remove("active-btn");
+    e.target.classList.remove("active-btn");
   }
 }
 
@@ -167,13 +148,15 @@ function main() {
   const eraserBtn = document.querySelector("#eraser-btn");
   const clearBtn = document.querySelector("#clear-btn");
   const gridlineBtn = document.querySelector("#gridline-btn");
+  const sizeSlider = document.querySelector("#size-slider");
 
   blackBtn.addEventListener("click", changeMode);
   greyscaleBtn.addEventListener("click", changeMode);
   rainbowBtn.addEventListener("click", changeMode);
   eraserBtn.addEventListener("click", changeMode);
-  clearBtn.addEventListener("click", changeGrid);
+  clearBtn.addEventListener("click", clearGrid);
   gridlineBtn.addEventListener("click", toggleGridlines);
+  sizeSlider.addEventListener("input", changeGrid);
   
   const squares = [...document.querySelectorAll(".square")];
   squares.forEach(function(square) {
