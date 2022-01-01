@@ -26,23 +26,38 @@ body {
 
 #options button {
   padding: 8px;
-  background: indianred;
+  background-color: indianred;
   border: 2px black solid;
   border-radius: 8px;
   color: white;
   font-weight: bold;
+  transition: background-color 0.1s;
 }
 
 #options button:hover {
-  background: rgb(173, 60, 60);
+  background-color: rgb(173, 60, 60);
 }
 
 #options button:active {
-  background: rgb(151, 28, 28);
+  background-color: rgb(151, 28, 28);
 }
 
 #options .active-btn {
-  background: rgb(151, 28, 28);
+  background-color: rgb(151, 28, 28);
+}
+
+#size-slider {
+  width: max(200px, 20vw);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+#size-slider:hover {
+  opacity: 1;
+}
+
+#slider-container p {
+  text-align: center;
 }
 
 #container {
@@ -53,6 +68,7 @@ body {
   border: 16px red solid;
   border-radius: 32px;
   box-shadow: 5px 10px;
+  margin: 16px;
 }
 
 #container .column,
